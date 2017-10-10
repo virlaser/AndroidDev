@@ -15,6 +15,8 @@
        android:id="@+id/img_login_ico"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:layout_margin="30dp"
        android:src="@drawable/login"
        />
 
@@ -26,6 +28,8 @@
         android:id="@+id/edt_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text"
+        android:maxLength="10"
         android:hint="@string/uname_hint"/>
 
     <!--该EditText需设置为单行密码输入
@@ -36,6 +40,8 @@
         android:id="@+id/edt_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:maxLength="6"
         android:hint="@string/pwd_hint"/>
 
     <LinearLayout
