@@ -24,7 +24,6 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_list);
         TextView text = (TextView) findViewById(R.id.txt_welcome);
         Button btn = (Button) findViewById(R.id.btn_back);
@@ -33,6 +32,10 @@ public class ListActivity extends AppCompatActivity {
         String data = intent.getStringExtra("usr");
         String str = "欢迎您," + data;
         text.setText(str);
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
 
         btn.setOnClickListener(new View.OnClickListener(){
             @Override

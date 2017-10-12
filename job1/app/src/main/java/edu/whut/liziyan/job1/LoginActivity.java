@@ -14,12 +14,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
         Button btnQuit = (Button) findViewById(R.id.btn_quit);
         Button btnLogin = (Button) findViewById(R.id.btn_login);
         final EditText textUser = (EditText) findViewById(R.id.edt_username);
         final EditText textPwd = (EditText) findViewById(R.id.edt_password);
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
 
         btnQuit.setOnClickListener(new View.OnClickListener() {
             @Override
