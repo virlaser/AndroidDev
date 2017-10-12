@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
         /******1.实例化两个EditText对象和两个Button对象，
          并通过findViewById方法实现layout中的控件与java对象的关联*****/
@@ -57,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                     it.putExtra("usr", textUser.getText().toString());
                     startActivity(it);
                 }else{
-                    String msg = "您输入的密码错误";
+                    String msg = "密码错误，请重试";
                     Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
                 }
             }

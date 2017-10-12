@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -24,6 +25,7 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_list);
         /******1.实例化1个TextView对象和1个Button对象，
          并通过findViewById方法实现layout中的控件与java对象的关联*****/
@@ -61,7 +63,13 @@ public class ListActivity extends AppCompatActivity {
         SongAdapter adapter = new SongAdapter(ListActivity.this, R.layout.song_item, songArray);
         ListView listView = (ListView) findViewById(R.id.list_song);
         listView.setAdapter(adapter);
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Song song = songArray.get(i);
+                Toast.makeText(ListActivity.this, song.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initSongs(){
