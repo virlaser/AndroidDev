@@ -3,14 +3,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<!--此文件中已包含登录Activity的基本布局，需调整各个控件的位置和间隔，
-从而实现作业效果图中的显示效果。注意：布局中用到的所有的字符串（string.xml）
-与尺寸(dimens.xml)应定义到values目录下相应的XML文件中，再通过资源应用的方式来设置
-(如：@string/XXX或@dimen/XXX，其中XXX为你在XML文件中为字符串或尺寸起的名称)。
-如无相应文件，可自己新建一个。定义方式参考本例中的string.xml与dimens.xml文件中的内容。-->
-
-    <!--该Imageview需调整为水平居中布局(android:layout_gravity)，
-    且四周留出一定的间隔（android:layout_margin）-->
    <ImageView
        android:id="@+id/img_login_ico"
        android:layout_width="wrap_content"
@@ -20,10 +12,6 @@
        android:src="@drawable/login"
        />
 
-    <!--该EditText需设置为单行输入
-    (android:singleLine已被废弃，可以通过设置android:inputType="text"来实现)
-    需设置最多只能输入10个字符（android:maxLength）
-    字体大小可自行调整-->
     <EditText
         android:id="@+id/edt_username"
         android:layout_width="match_parent"
@@ -32,10 +20,6 @@
         android:maxLength="10"
         android:hint="@string/uname_hint"/>
 
-    <!--该EditText需设置为单行密码输入
-    (android:singleLine已被废弃，可以通过设置android:inputType="numberPassword"来实现)
-    需设置最多只能输入6个字符（android:maxLength）
-    字体大小可自行调整-->
     <EditText
         android:id="@+id/edt_password"
         android:layout_width="match_parent"
@@ -48,9 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!--下面两个Button字体大小可自行调整。这里大家思考一下为什么在水平线性布局里
-        要用两个layout_weight相同的垂直线性布局分别包含两个按钮，
-        如果去掉这两个垂直线性布局有什么影响？有没有其他的方案可以实现相同的效果？-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

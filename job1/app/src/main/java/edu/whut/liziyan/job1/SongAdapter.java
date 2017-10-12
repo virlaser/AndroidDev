@@ -14,9 +14,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * 自定义的适配器，这个适配器继承自ArrayAdapter，并将泛型指定为Song类
- */
 
 public class SongAdapter extends ArrayAdapter<Song> {
     private int resourceId;
@@ -28,10 +25,6 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        /**需参考教学资源中课件例子中的“ LIstView的使用”中的FruitAdapter
-         * 重写适配器的getView方法，
-         * 注意使用convertView与ViewHolder提高效率
-         * **/
         Song song = getItem(position);
         View view;
         ViewHolder viewHolder;
@@ -53,8 +46,6 @@ public class SongAdapter extends ArrayAdapter<Song> {
     }
 
     class ViewHolder {
-        /**需参考教学资源中课件例子中的“ LIstView的使用”中的FruitAdapter，
-         * 定义合适的ViewHolder**/
         ImageView image;
         TextView name;
         TextView author;
