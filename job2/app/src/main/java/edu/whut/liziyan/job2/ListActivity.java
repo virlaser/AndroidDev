@@ -24,10 +24,8 @@ import java.util.List;
 
 public class ListActivity extends AppCompatActivity {
 
-    /**为动态注册实例化一个自定义的广播接收器和一个IntentFilter**/
     private IntentFilter intentFilter;
     private HeadsetPlugReceiver headsetPlugReceiver;
-
 
     private List<Song> songArray = new ArrayList<Song>();
     @Override
@@ -35,10 +33,6 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        /**动态注册广播接收器
-         * 耳机相关广播为android.intent.action.HEADSET_PLUG
-         * 如何动态注册，
-         * 具体参看“教学资源---示例代码---课件例子-- 广播的接收与发送--broadcasttest”**/
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.intent.action.HEADSET_PLUG");
         headsetPlugReceiver = new HeadsetPlugReceiver();
@@ -56,15 +50,11 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /**调用initSong()之前需先动态获取权限Manifest.permission.READ_EXTERNAL_STORAGE
-         * **/
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE }, 1);
         } else {
             initSongs();
         }
-
-
 
         ListView songList=(ListView)findViewById(R.id.list_song);
         SongAdapter myAdapter=new SongAdapter(ListActivity.this,R.layout.song_item,songArray);
@@ -73,20 +63,17 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Song song = songArray.get(position);
-                /**修改点击显示歌曲文件路径**/
                 Toast.makeText(ListActivity.this, song.getSongPath(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    /**在onDestroy()方法中通过调用unregisterReceiver()方法来取消广播接收器的注册**/
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(headsetPlugReceiver);
     }
 
-    /**运行时权限申请的处理**/
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case 1:
@@ -100,11 +87,6 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
-    /**修改作业1中的init函数，通过ContentProvider获取本机音乐信息并填充歌曲数组
-     * 歌手信息cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST))
-     * 歌曲名称cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE))
-     * 歌曲文件路径cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
-     * 具体参考“教学资源---示例代码---课件例子-- ContentProvider获取本机联系人”**/
     private void initSongs() {
         Cursor cursor = null;
         cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
@@ -123,13 +105,6 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
-    /**创建一个广播接收器:
-     * 新建一个类，让它继承自BroadcastReceiver，并重写父类的onReceive()方法
-     * onReceive()方法内判断是插入还是拔出（可根据onreceiver的参数中的intent调用
-     * getIntExtra方法获取键名为“state”的值，为1则表示耳机连接，为0表示耳机拔出）
-     * ，并Toast相应信息
-     * 如何创建广播接收器并处理收到的广播，
-     * 具体参看“教学资源---示例代码---课件例子-- 广播的接收与发送--broadcasttest”**/
     class HeadsetPlugReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -144,5 +119,4 @@ public class ListActivity extends AppCompatActivity {
             }
         }
     }
-
 }

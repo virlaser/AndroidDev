@@ -19,17 +19,10 @@ public class LoginActivity extends AppCompatActivity {
         final EditText unameEdt=(EditText)findViewById(R.id.edt_username);
         final EditText pwdEdt=(EditText)findViewById(R.id.edt_password);
 
-
-        /**这里别忘了把CheckBox通过findViewById关联进来**/
         final CheckBox savenameChk=(CheckBox)findViewById(R.id.chk_savename);
 
-        /**从SharedPreferences通过键名uname获取保存的用户名，若没有则为空。
-         * 并填入用户名对话框
-         * 如何将数据存入SharedPreferences参看“教学资源---示例代码---课件例子-- SharedPreferences存储”**/
         SharedPreferences pref = getSharedPreferences("userinfo", MODE_PRIVATE);
         unameEdt.setText(pref.getString("uname", ""));
-
-
 
         Button quitBtn=(Button)findViewById(R.id.btn_quit);
         Button loginBtn=(Button)findViewById(R.id.btn_login);
@@ -47,11 +40,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
                 }else{
 
-                    /**登陆成功后，界面跳转前的处理：判断记住用户名复选框是否选中(checkbox.ischecked()是否为true)
-                     * 选中，则将用户名记入SharedPreferences（键名为uname）
-                     * 未选中，则将空字符串记入SharedPreferences（键名也为uname），覆盖原来保存的用户名。
-                     * 如何将数据存入SharedPreferences参看“教学资源---示例代码---课件例子-- SharedPreferences存储”
-                     * **/
                     SharedPreferences.Editor editor = getSharedPreferences("userinfo", MODE_PRIVATE).edit();
                     if(savenameChk.isChecked()){
                         editor.putString("uname", unameEdt.getText().toString());
@@ -60,14 +48,11 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     editor.apply();
 
-
                     Intent intent=new Intent(LoginActivity.this,ListActivity.class);
                     intent.putExtra("uname",unameEdt.getText().toString());
                     startActivity(intent);
                 }
             }
         });
-
-
     }
 }
