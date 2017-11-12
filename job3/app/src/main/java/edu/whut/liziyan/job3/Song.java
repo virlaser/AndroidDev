@@ -1,10 +1,5 @@
 package edu.whut.liziyan.job3;
 
-/**
- * Created by 珀石 on 2017/9/26.
- * 定义一个实体类，作为ListView适配器的适配类型
- */
-
 public class Song {
     private int coverId;
     private String songName;

@@ -11,11 +11,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by 珀石 on 2017/9/26.
- * 自定义的适配器，这个适配器继承自ArrayAdapter，并将泛型指定为Song类
- */
-
 public class SongAdapter extends ArrayAdapter<Song> {
     private int resourceId;
 
@@ -54,6 +49,5 @@ public class SongAdapter extends ArrayAdapter<Song> {
         TextView singerTxt;
         String songPath;
     }
-
 }
 
