@@ -3,7 +3,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--此文件中已包含列表Activity的基本布局，细节大家自行调整-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

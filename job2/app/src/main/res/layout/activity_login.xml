@@ -31,9 +31,6 @@
         android:maxLength="6"
         android:hint="@string/pwd_hint"/>
 
-    <!--此处需添加一个复选框CheckBox，实现记住用户名，默认选中。
-        文字设置使用android:text
-        默认选中设置使用android:checked-->
     <CheckBox
         android:id="@+id/chk_savename"
         android:layout_width="wrap_content"
