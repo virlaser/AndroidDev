@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">example4job2</string>
+    <string name="app_name">job2</string>
     <string name="uname_hint">请输入用户名</string>
     <string name="pwd_hint">请输入密码</string>
     <string name="login">登陆</string>
