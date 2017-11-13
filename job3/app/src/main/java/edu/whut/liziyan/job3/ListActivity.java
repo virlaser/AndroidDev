@@ -131,7 +131,6 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     //内部方法，用于初始化播放器
@@ -149,14 +148,13 @@ public class ListActivity extends AppCompatActivity {
     private void playMusic() {
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
-            Log.e("duration", Integer.toString(mediaPlayer.getDuration()));
             seekbar.setMax(mediaPlayer.getDuration());
             //定时器记录播放进度
             mTimer = new Timer();
             mTimerTask = new TimerTask() {
                 @Override
                 public void run() {
-                    if (isChanging == true) {
+                    if (isChanging) {
                         return;
                     }
                     seekbar.setProgress(mediaPlayer.getCurrentPosition());
