@@ -57,3 +57,9 @@
 4.取本机歌曲信息uri为MediaStore.Audio.Media. EXTERNAL_CONTENT_URI
 ```
 
+### Muse
+
+```
+在前面的基础上，自选方向，对播放器的功能进行扩展，如实现歌曲列表、歌词显示、后台播放等。
+```
+
