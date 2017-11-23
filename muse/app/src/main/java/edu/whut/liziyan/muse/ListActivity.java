@@ -1,17 +1,22 @@
 package edu.whut.liziyan.muse;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,12 +114,38 @@ public class ListActivity extends AppCompatActivity {
     class HeadsetPlugReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equalsIgnoreCase("android.intent.action.HEADSET_PLUG")){
-                if(intent.hasExtra("state")){
-                    if (intent.getIntExtra("state", 0) == 1){
-                        Toast.makeText(context, "耳机已连接", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(context, "耳机已断开", Toast.LENGTH_SHORT).show();
+            if (intent.getAction().equalsIgnoreCase("android.intent.action.HEADSET_PLUG")) {
+                if (intent.hasExtra("state")) {
+                    //获取NotificationManager对象
+                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    if (intent.getIntExtra("state", 0) == 1) {
+                        //发送耳机链接通知
+                        Notification notification = new NotificationCompat.Builder(context)
+                                .setContentTitle("耳机状态变化")
+                                .setContentText("耳机已连接")
+                                .setWhen(System.currentTimeMillis())
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                                .setSound(Uri.fromFile(new File("/system/media/audio/ringtones/game.ogg")))
+                                .setVibrate(new long[]{0, 1000, 1000, 1000})
+                                .setPriority(NotificationCompat.PRIORITY_MAX)
+                                .setAutoCancel(true)
+                                .build();
+                        manager.notify(1, notification);
+                    } else {
+                        //发送耳机断开通知
+                        Notification notification = new NotificationCompat.Builder(context)
+                                .setContentTitle("耳机状态变化")
+                                .setContentText("耳机已断开")
+                                .setWhen(System.currentTimeMillis())
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                                .setSound(Uri.fromFile(new File("/system/media/audio/ringtones/game.ogg")))
+                                .setVibrate(new long[]{0, 1000, 1000, 1000})
+                                .setPriority(NotificationCompat.PRIORITY_MAX)
+                                .setAutoCancel(true)
+                                .build();
+                        manager.notify(1, notification);
                     }
                 }
             }
