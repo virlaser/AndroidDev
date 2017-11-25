@@ -62,14 +62,16 @@ public class ListActivity extends AppCompatActivity {
             initSongs();
         }
 
-        ListView songList=(ListView)findViewById(R.id.list_song);
+        final ListView songList=(ListView)findViewById(R.id.list_song);
         SongAdapter myAdapter=new SongAdapter(ListActivity.this,R.layout.song_item,songArray);
         songList.setAdapter(myAdapter);
         songList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Song song = songArray.get(position);
-                Toast.makeText(ListActivity.this, song.getSongPath(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ListActivity.this, PlayerActivity.class);
+                intent.putExtra("song", song);
+                startActivity(intent);
             }
         });
 

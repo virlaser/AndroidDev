@@ -4,4 +4,8 @@
     <string name="pwd_hint">请输入密码</string>
     <string name="login">登陆</string>
     <string name="quit">退出</string>
+    <string name="stop">停止</string>
+    <string name="pre">上一首</string>
+    <string name="play">播放/暂停</string>
+    <string name="next">下一首</string>
 </resources>
