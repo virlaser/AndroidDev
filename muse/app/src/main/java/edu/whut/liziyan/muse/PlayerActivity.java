@@ -18,6 +18,7 @@ public class PlayerActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private TextView tv_start;
     private TextView tv_end;
+    private TextView songInfo;
     private SeekBar seekbar;
     private Button stop,pre,play,next;
     private Boolean isSeekBarChanging = false;
@@ -40,6 +41,7 @@ public class PlayerActivity extends AppCompatActivity {
 
         tv_start = findViewById(R.id.music_start);
         tv_end = findViewById(R.id.music_stop);
+        songInfo = findViewById(R.id.song_name);
         stop = findViewById(R.id.stop);
         pre = findViewById(R.id.pre);
         play = findViewById(R.id.play);
@@ -93,7 +95,7 @@ public class PlayerActivity extends AppCompatActivity {
     private void initMediaPlayer(){
         try{
             if(song.getSongPath()==null)
-                Toast.makeText(PlayerActivity.this, "songPath is null", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlayerActivity.this, "歌曲不存在", Toast.LENGTH_SHORT).show();
             mediaPlayer.setDataSource(song.getSongPath());
             mediaPlayer.prepare();
         }catch (Exception e){
@@ -103,6 +105,8 @@ public class PlayerActivity extends AppCompatActivity {
         int position = mediaPlayer.getCurrentPosition();
         tv_start.setText(calculateTime(position/1000));
         tv_end.setText(calculateTime(duration));
+        String info = song.getSongName() + "--" + song.getSinger();
+        songInfo.setText(info);
     }
 
     private void playMusic() {
@@ -154,7 +158,6 @@ public class PlayerActivity extends AppCompatActivity {
     private void initChange(){
         mediaPlayer.reset();
         timer = new Timer();
-        //seekbar.setOnSeekBarChangeListener(new MySeekBar());
         initMediaPlayer();
         playMusic();
     }
