@@ -70,7 +70,14 @@ public class ListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Song song = songArray.get(position);
                 Intent intent = new Intent(ListActivity.this, PlayerActivity.class);
+                //当前歌曲
                 intent.putExtra("song", song);
+                //当前歌曲坐标
+                intent.putExtra("position", position);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("songs", (ArrayList<Song>)songArray);
+                //歌曲数组
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

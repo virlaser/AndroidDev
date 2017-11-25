@@ -9,6 +9,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,10 +21,11 @@ public class PlayerActivity extends AppCompatActivity {
     private SeekBar seekbar;
     private Button stop,pre,play,next;
     private Boolean isSeekBarChanging = false;
-    private String songURL;
     private Timer timer;
     private TimerTask timerTask;
     private Song song;
+    private ArrayList<Song> songArray;
+    private int songPosition;
 
 
     @Override
@@ -31,8 +33,10 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.song_play);
 
+        //上一个activity传来的数据
         song = this.getIntent().getParcelableExtra("song");
-        songURL = song.getSongPath();
+        songArray = this.getIntent().getParcelableArrayListExtra("songs");
+        songPosition = this.getIntent().getIntExtra("position", 0);
 
         tv_start = findViewById(R.id.music_start);
         tv_end = findViewById(R.id.music_stop);
@@ -41,33 +45,12 @@ public class PlayerActivity extends AppCompatActivity {
         play = findViewById(R.id.play);
         next = findViewById(R.id.next);
         seekbar = findViewById(R.id.audio_bar);
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int duration=mediaPlayer.getDuration()/1000;
-                int position=mediaPlayer.getCurrentPosition()/1000;
-                tv_start.setText(calculateTime(position));
-                tv_end.setText(calculateTime(duration));
-            }
+        seekbar.setOnSeekBarChangeListener(new MySeekBar());
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                isSeekBarChanging = true;
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                int progress=seekBar.getProgress();
-                mediaPlayer.seekTo(progress);
-                tv_start.setText(calculateTime(mediaPlayer.getCurrentPosition()/1000));
-                isSeekBarChanging = false;
-            }
-        });
-
+        initMediaPlayer();
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initMediaPlayer();
                 playMusic();
             }
         });
@@ -79,20 +62,39 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
 
+        pre.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(mediaPlayer.isPlaying())
+                    mediaPlayer.pause();
+                preMusic();
+                initChange();
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mediaPlayer.isPlaying())
+                    mediaPlayer.pause();
+                nextMusic();
+                initChange();
+            }
+        });
+
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 mediaPlayer.seekTo(0);
             }
         });
-
     }
 
     private void initMediaPlayer(){
         try{
             if(song.getSongPath()==null)
                 Toast.makeText(PlayerActivity.this, "songPath is null", Toast.LENGTH_SHORT).show();
-            mediaPlayer.setDataSource(songURL);
+            mediaPlayer.setDataSource(song.getSongPath());
             mediaPlayer.prepare();
         }catch (Exception e){
             e.printStackTrace();
@@ -129,6 +131,34 @@ public class PlayerActivity extends AppCompatActivity {
         mediaPlayer.seekTo(0);
     }
 
+    private void preMusic(){
+        if(songPosition>0){
+            song = songArray.get(songPosition-1);
+            songPosition--;
+        }else{
+            songPosition = songArray.size()-1;
+            song = songArray.get(songPosition);
+        }
+    }
+
+    private void nextMusic(){
+        if(songPosition<(songArray.size()-1)){
+            song = songArray.get(songPosition+1);
+            songPosition++;
+        }else{
+            songPosition = 0;
+            song = songArray.get(0);
+        }
+    }
+
+    private void initChange(){
+        mediaPlayer.reset();
+        timer = new Timer();
+        //seekbar.setOnSeekBarChangeListener(new MySeekBar());
+        initMediaPlayer();
+        playMusic();
+    }
+
     public String calculateTime(int time){
         int minute;
         int second;
@@ -143,14 +173,37 @@ public class PlayerActivity extends AppCompatActivity {
         return null;
     }
 
-    protected void onDestroy(){
+    class MySeekBar implements SeekBar.OnSeekBarChangeListener {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            int duration=mediaPlayer.getDuration()/1000;
+            int position=mediaPlayer.getCurrentPosition()/1000;
+            tv_start.setText(calculateTime(position));
+            tv_end.setText(calculateTime(duration));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            isSeekBarChanging = true;
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            int progress=seekBar.getProgress();
+            mediaPlayer.seekTo(progress);
+            tv_start.setText(calculateTime(mediaPlayer.getCurrentPosition()/1000));
+            isSeekBarChanging = false;
+        }
+    }
+
+    protected void onDestroy() {
         super.onDestroy();
-        if(timer!=null){
+        if (timer != null) {
             timer.cancel();
             timer.purge();
             timer = null;
         }
-        if(mediaPlayer!=null){
+        if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
         }
