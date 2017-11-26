@@ -62,4 +62,16 @@
 ```
 在前面的基础上，自选方向，对播放器的功能进行扩展，如实现歌曲列表、歌词显示、后台播放等。
 ```
+登录界面：
+![](https://github.com/virlaser/AndroidDev/blob/master/screenshot/1.png?raw=true)
+
+歌曲列表：
+![](https://github.com/virlaser/AndroidDev/blob/master/screenshot/2.png?raw=true)
+
+歌曲播放:
+![](https://github.com/virlaser/AndroidDev/blob/master/screenshot/3.png?raw=true)
+
+耳机插入通知：
+![](https://github.com/virlaser/AndroidDev/blob/master/screenshot/4.png?raw=true)
+
 
